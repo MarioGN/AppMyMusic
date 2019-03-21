@@ -6,13 +6,23 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.ListView;
+
+import com.marioneto.appmymusic.util.MusicaAdapter;
+import com.marioneto.appmymusic.util.RepositorioMusicas;
 
 public class MainActivity extends AppCompatActivity {
+    private ListView listaCatalogo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        listaCatalogo = findViewById(R.id.lista_catalogo);
+        RepositorioMusicas.iniciar();
+        listaCatalogo.setAdapter(new MusicaAdapter(this, R.layout.item_lista,
+                RepositorioMusicas.getCatalogo().getListaMusicas()));
     }
 
     @Override

@@ -4,7 +4,7 @@ import com.marioneto.appmymusic.bean.Catalogo;
 import com.marioneto.appmymusic.bean.Genero;
 import com.marioneto.appmymusic.bean.Musica;
 
-class RepositorioMusicas {
+public class RepositorioMusicas {
     static private final Catalogo catalogo = new Catalogo();
 
     private RepositorioMusicas() {
