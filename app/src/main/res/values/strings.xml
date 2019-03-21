@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">AppMyMusic</string>
-    <string name="menu_genero">Novo GêneroS</string>
+    <string name="menu_genero">Novo Gênero</string>
     <string name="menu_musica">Nova Música</string>
 </resources>

@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.genero:
+                startActivity(new Intent(this, CadastrarGenero.class));
                 return true;
             case R.id.musica:
                 startActivity(new Intent(this, CadastrarMusica.class));
