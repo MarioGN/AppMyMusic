@@ -1,5 +1,7 @@
 package com.marioneto.appmymusic.bean;
 
+import java.util.UUID;
+
 public class Genero {
     private int id;
     private String nome;

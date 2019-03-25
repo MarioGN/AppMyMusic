@@ -2,4 +2,7 @@
     <string name="app_name">AppMyMusic</string>
     <string name="menu_genero">Novo Gênero</string>
     <string name="menu_musica">Nova Música</string>
+
+    <string name="edit_genero">Gênero musical</string>
+    <string name="btn_genero">Cadastrar</string>
 </resources>

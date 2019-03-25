@@ -15,14 +15,14 @@ import java.util.List;
 public class MusicaAdapter extends ArrayAdapter<Musica> {
     private int layout;
 
-    public MusicaAdapter(Context context, int resource, List<Musica> musicas)
-    {   super(context, resource, musicas);
+    public MusicaAdapter(Context context, int resource, List<Musica> musicas) {
+        super(context, resource, musicas);
         this.layout = resource;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        if (convertView == null){
+        if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater)
                     getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(this.layout,parent,false);
