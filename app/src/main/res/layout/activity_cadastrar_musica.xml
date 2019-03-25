@@ -46,7 +46,8 @@
     <SeekBar
         android:id="@+id/sk_ano"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:progress="0"/>
 
     <TextView
         android:id="@+id/tv_ano"
@@ -66,14 +67,16 @@
     <SeekBar
         android:id="@+id/sk_duracao"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:progress="0"/>
 
     <TextView
+        android:id="@+id/tv_duracao"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="24sp"
         android:textAlignment="viewEnd"
-        android:text="5,5"/>
+        android:text="0"/>
 
     <Button
         android:id="@+id/btn_cadastrar_musica"
