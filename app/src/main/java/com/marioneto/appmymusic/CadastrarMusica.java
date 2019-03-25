@@ -2,12 +2,17 @@ package com.marioneto.appmymusic;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.marioneto.appmymusic.bean.Genero;
+import com.marioneto.appmymusic.bean.Musica;
 import com.marioneto.appmymusic.util.RepositorioMusicas;
 
 public class CadastrarMusica extends AppCompatActivity {
@@ -15,6 +20,8 @@ public class CadastrarMusica extends AppCompatActivity {
     private SeekBar skAno, skDuracao;
     private TextView tvAno, tvDuracao;
     private double duracao;
+    private EditText etInterprete, etNomeMusica;
+    private Button btCadastrar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +33,9 @@ public class CadastrarMusica extends AppCompatActivity {
         tvAno = findViewById(R.id.tv_ano);
         skDuracao = findViewById(R.id.sk_duracao);
         tvDuracao = findViewById(R.id.tv_duracao);
+        etInterprete = findViewById(R.id.et_interprete);
+        etNomeMusica = findViewById(R.id.et_musica);
+        btCadastrar = findViewById(R.id.btn_cadastrar_musica);
 
         ArrayAdapter<Genero> adapter;
         adapter = new ArrayAdapter(this,
@@ -70,6 +80,25 @@ public class CadastrarMusica extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
+        btCadastrar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Genero genero = (Genero) spnGenero.getSelectedItem();
+                String interprete = etInterprete.getText().toString();
+                String musica = etNomeMusica.getText().toString();
+                int ano = Integer.parseInt(tvAno.getText().toString());
+                double duracao = skDuracao.getProgress()/60;
+                Musica novaMusica = new Musica(0, genero, interprete, musica, ano, duracao);
+
+                RepositorioMusicas.getCatalogo().adicionarMusica(novaMusica);
+
+                Toast.makeText(CadastrarMusica.this, "Nova música adicionada",
+                        Toast.LENGTH_SHORT).show();
+
 
             }
         });
