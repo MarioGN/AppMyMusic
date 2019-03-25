@@ -12,6 +12,7 @@ public class RepositorioMusicas {
 
     static public void iniciar() {
         Genero genero = new Genero(1, "Rock");
+        catalogo.adicionarGenero(genero);
 
         catalogo.adicionarMusica(new Musica(1, genero, "Foo Fighters",
                 "Everlong", 1997,  4.50));
