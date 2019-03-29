@@ -96,7 +96,7 @@ public class CadastrarMusica extends AppCompatActivity {
 
                 RepositorioMusicas.getCatalogo().adicionarMusica(novaMusica);
 
-                Toast.makeText(CadastrarMusica.this, "Nova música adicionada",
+                Toast.makeText(CadastrarMusica.this, "Nova música adicionada!",
                         Toast.LENGTH_SHORT).show();
 
 

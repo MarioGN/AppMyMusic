@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.marioneto.appmymusic.util.MusicaAdapter;
 import com.marioneto.appmymusic.util.RepositorioMusicas;
@@ -23,6 +24,12 @@ public class MainActivity extends AppCompatActivity {
         RepositorioMusicas.iniciar();
         listaCatalogo.setAdapter(new MusicaAdapter(this, R.layout.item_lista,
                 RepositorioMusicas.getCatalogo().getListaMusicas()));
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ((MusicaAdapter)listaCatalogo.getAdapter()).notifyDataSetChanged();
     }
 
     @Override
