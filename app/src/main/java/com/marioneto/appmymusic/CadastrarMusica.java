@@ -11,6 +11,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.marioneto.appmymusic.bean.Catalogo;
 import com.marioneto.appmymusic.bean.Genero;
 import com.marioneto.appmymusic.bean.Musica;
 import com.marioneto.appmymusic.util.RepositorioMusicas;
@@ -22,11 +23,14 @@ public class CadastrarMusica extends AppCompatActivity {
     private double duracao;
     private EditText etInterprete, etNomeMusica;
     private Button btCadastrar;
+    private Musica musicaSelecionada;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cadastrar_musica);
+
+        musicaSelecionada = null;
 
         spnGenero = findViewById(R.id.spn_genero);
         skAno = findViewById(R.id.sk_ano);
@@ -92,13 +96,41 @@ public class CadastrarMusica extends AppCompatActivity {
                 String musica = etNomeMusica.getText().toString();
                 int ano = Integer.parseInt(tvAno.getText().toString());
                 double duracao = skDuracao.getProgress()/60;
-                Musica novaMusica = new Musica(0, genero, interprete, musica, ano, duracao);
 
-                RepositorioMusicas.getCatalogo().adicionarMusica(novaMusica);
 
-                Toast.makeText(CadastrarMusica.this, "Nova música adicionada!",
+                if (musicaSelecionada != null) {
+                    musicaSelecionada.setGenero(genero);
+                    musicaSelecionada.setInterprete(interprete);
+                    musicaSelecionada.setNome(musica);
+                    musicaSelecionada.setAno(ano);
+                    musicaSelecionada.setDuracao(duracao);
+                }
+                else {
+                    Musica novaMusica = new Musica(0, genero, interprete, musica, ano, duracao);
+                    RepositorioMusicas.getCatalogo().adicionarMusica(novaMusica);
+                }
+
+                Toast.makeText(CadastrarMusica.this, "Dados salvos com sucesso!",
                         Toast.LENGTH_SHORT).show();
             }
         });
+
+        int musicaAlterar = getIntent().getIntExtra("Musica", -1);
+        if (musicaAlterar > -1) {
+            musicaSelecionada = RepositorioMusicas.getCatalogo().getListaMusicas().get(musicaAlterar);
+
+            int posicaoGenero = RepositorioMusicas.getCatalogo()
+                    .getListaGeneros().indexOf(musicaSelecionada.getGenero());
+            spnGenero.setSelection(posicaoGenero);
+
+            etNomeMusica.setText(musicaSelecionada.getNome());
+            etInterprete.setText(musicaSelecionada.getInterprete());
+
+            skAno.setProgress(musicaSelecionada.getAno()-1900);
+            skDuracao.setProgress(((int) Math.round(musicaSelecionada.getDuracao()*60)));
+            tvDuracao.setText(String.format("%.2f", musicaSelecionada.getDuracao()));
+
+            btCadastrar.setText("salvar alterações");
+        }
     }
 }

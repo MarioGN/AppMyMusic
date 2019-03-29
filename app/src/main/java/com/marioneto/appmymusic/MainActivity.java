@@ -38,6 +38,15 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
+
+        listaCatalogo.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(MainActivity.this, CadastrarMusica.class);
+                intent.putExtra("Musica", position);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
