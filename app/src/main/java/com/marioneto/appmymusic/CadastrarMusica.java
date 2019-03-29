@@ -98,8 +98,6 @@ public class CadastrarMusica extends AppCompatActivity {
 
                 Toast.makeText(CadastrarMusica.this, "Nova música adicionada!",
                         Toast.LENGTH_SHORT).show();
-
-
             }
         });
     }

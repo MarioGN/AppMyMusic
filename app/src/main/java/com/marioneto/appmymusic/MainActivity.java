@@ -1,19 +1,25 @@
 package com.marioneto.appmymusic;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
+import com.marioneto.appmymusic.bean.Musica;
 import com.marioneto.appmymusic.util.MusicaAdapter;
 import com.marioneto.appmymusic.util.RepositorioMusicas;
 
 public class MainActivity extends AppCompatActivity {
     private ListView listaCatalogo;
+
+    private AlertDialog alert;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +30,14 @@ public class MainActivity extends AppCompatActivity {
         RepositorioMusicas.iniciar();
         listaCatalogo.setAdapter(new MusicaAdapter(this, R.layout.item_lista,
                 RepositorioMusicas.getCatalogo().getListaMusicas()));
+
+        listaCatalogo.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                removeMusicDialog(position);
+                return false;
+            }
+        });
     }
 
     @Override
@@ -51,5 +65,33 @@ public class MainActivity extends AppCompatActivity {
             default:
                 return true;
         }
+    }
+
+    private boolean removeMusicDialog(final int position) {
+        Musica musica = RepositorioMusicas.getCatalogo().getListaMusicas().get(position);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Confirmar exclusão");
+        builder.setMessage("Deseja confirmar exclusão da música: " + musica.getNome());
+
+        builder.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                RepositorioMusicas.getCatalogo().getListaMusicas().remove(position);
+                ((MusicaAdapter)listaCatalogo.getAdapter()).notifyDataSetChanged();
+            }
+        });
+
+        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+
+        alert = builder.create();
+        alert.show();
+
+        return false;
     }
 }
