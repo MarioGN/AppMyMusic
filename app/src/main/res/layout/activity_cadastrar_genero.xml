@@ -7,17 +7,17 @@
     android:gravity="center"
     android:orientation="vertical"
     android:padding="20dp"
-    tools:context=".CadastrarGenero">
-
+    tools:context=".CadastrarGenero" >
+    
     <EditText
-        android:id="@+id/ed_genero"
+        android:id="@+id/et_genero"
         android:textSize="24sp"
         android:hint="Gênero"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <Button
-        android:id="@+id/btn_cadastrar"
+        android:id="@+id/btn_cadastrar_genero"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
