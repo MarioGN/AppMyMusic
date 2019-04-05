@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.marioneto.appmymusic.bean.Genero;
 import com.marioneto.appmymusic.bean.Musica;
 import com.marioneto.appmymusic.util.MusicaAdapter;
 import com.marioneto.appmymusic.util.RepositorioMusicas;
@@ -35,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
         listaCatalogo = findViewById(R.id.lista_catalogo);
         RepositorioMusicas.iniciar();
         this.deserializarListaMusicas();
+        this.deserializarListaGeneros();
 
         listaCatalogo.setAdapter(new MusicaAdapter(this, R.layout.item_lista,
                 RepositorioMusicas.getCatalogo().getListaMusicas()));
@@ -61,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         this.serializarListaMusicas();
+        this.serializarListaGeneros();
     }
 
     @Override
@@ -159,6 +162,61 @@ public class MainActivity extends AppCompatActivity {
 
                 if (m != null) {
                     RepositorioMusicas.getCatalogo().getListaMusicas().add(m);
+                }
+                else {
+                    read = false;
+                }
+            }
+
+            objectIS.close();
+            fileIS.close();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void serializarListaGeneros() {
+        FileOutputStream fileOS = null;
+        ObjectOutputStream objectOS;
+
+        try {
+            fileOS = openFileOutput("lista_generos.dad", Context.MODE_PRIVATE);
+            objectOS = new ObjectOutputStream(fileOS);
+
+            for (Genero g : RepositorioMusicas.getCatalogo().getListaGeneros()) {
+                objectOS.writeObject(g);
+            }
+
+            objectOS.close();
+            fileOS.close();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void deserializarListaGeneros() {
+        FileInputStream fileIS = null;
+        ObjectInputStream objectIS;
+
+        try {
+            fileIS = openFileInput("lista_generos.dad");
+            objectIS = new ObjectInputStream(fileIS);
+
+            boolean read = true;
+            while (read) {
+                Genero g = null;
+
+                try {
+                    g = (Genero) objectIS.readObject();
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                if (g != null) {
+                    RepositorioMusicas.getCatalogo().getListaGeneros().add(g);
                 }
                 else {
                     read = false;
