@@ -1,5 +1,6 @@
 package com.marioneto.appmymusic;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
@@ -16,6 +17,11 @@ import com.marioneto.appmymusic.bean.Musica;
 import com.marioneto.appmymusic.util.MusicaAdapter;
 import com.marioneto.appmymusic.util.RepositorioMusicas;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+
 public class MainActivity extends AppCompatActivity {
     private ListView listaCatalogo;
 
@@ -28,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
 
         listaCatalogo = findViewById(R.id.lista_catalogo);
         RepositorioMusicas.iniciar();
+        this.deserializarListaMusicas();
+
         listaCatalogo.setAdapter(new MusicaAdapter(this, R.layout.item_lista,
                 RepositorioMusicas.getCatalogo().getListaMusicas()));
 
@@ -47,6 +55,12 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        this.serializarListaMusicas();
     }
 
     @Override
@@ -102,5 +116,60 @@ public class MainActivity extends AppCompatActivity {
         alert.show();
 
         return false;
+    }
+
+    private void serializarListaMusicas() {
+        FileOutputStream fileOS = null;
+        ObjectOutputStream objectOS;
+
+        try {
+            fileOS = openFileOutput("lista_musicas.dad", Context.MODE_PRIVATE);
+            objectOS = new ObjectOutputStream(fileOS);
+
+            for (Musica m : RepositorioMusicas.getCatalogo().getListaMusicas()) {
+                objectOS.writeObject(m);
+            }
+
+            objectOS.close();
+            fileOS.close();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void deserializarListaMusicas() {
+        FileInputStream fileIS = null;
+        ObjectInputStream objectIS;
+
+        try {
+            fileIS = openFileInput("lista_musicas.dad");
+            objectIS = new ObjectInputStream(fileIS);
+
+            boolean read = true;
+            while (read) {
+                Musica m = null;
+
+                try {
+                    m = (Musica) objectIS.readObject();
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                if (m != null) {
+                    RepositorioMusicas.getCatalogo().getListaMusicas().add(m);
+                }
+                else {
+                    read = false;
+                }
+            }
+
+            objectIS.close();
+            fileIS.close();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

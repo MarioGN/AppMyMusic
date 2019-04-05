@@ -1,8 +1,9 @@
 package com.marioneto.appmymusic.bean;
 
-import java.util.UUID;
+import java.io.Serializable;
 
-public class Genero {
+
+public class Genero implements Serializable {
     private int id;
     private String nome;
 
